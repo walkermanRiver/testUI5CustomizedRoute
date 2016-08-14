@@ -24,7 +24,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/EventProvider', 'sap/ui/core/UI
 				publicMethods: ["getView", "setView"]
 			},			
 	
-			//oOptions = oParentOptions = {sViewName:"value", type: "XML", optionalKey:{key1:value1,key2:value2}}
+			//oOptions = oParentOptions = {sViewName:"value", type: "XML", optionalKey:{key1:value1,key2:value2}}			
 			getView : function (oOptions, oParentOptions) {
 //				return this._getView(oOptions).loaded();
 			},
@@ -52,10 +52,18 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/EventProvider', 'sap/ui/core/UI
 
 				return this;
 			},
+
+			_getRouteView: function(oOptions, oParentRouteView){
+
+			},
+
+			_getViewInstace: function(oInstanceKey, oRouteView){
+
+			},
 			
 			//UI5 example: oOptions = {viewName: "sap.ui.demo.nav.view.employee.overview.EmployeeOverview", type: "XML", id: undefined}
-			//BPC: oOptions = oParentOptions = {sViewName:"value", type: "XML", optionalKey:{key1:value1,key2:value2}}
-			_getView: function (oOptions,oParentOptions) {
+			//BPC: oOptions = {sViewName:"value", type: "XML", optionalKey:{key1:value1,key2:value2}}
+			_getView: function (oOptions,oParentView) {
 				if (this._oComponent && oOptions.id) {
 					oOptions = jQuery.extend({}, oOptions, { id : this._oComponent.createId(oOptions.id) });
 				}
