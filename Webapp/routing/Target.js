@@ -2,7 +2,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/EventProvider'],
 	function(jQuery, EventProvider) {
 		"use strict";
 		
-		var Target = EventProvider.extend("sap.ui.demo.nav.routing.Target", /** @lends sap.ui.core.routing.Target.prototype */ {
+		var Target = EventProvider.extend("sap.ui.demo.nav.routing.Target", {
 
 			constructor : function(oOptions, oViews) {	
 				this._oOptions = oOptions;
