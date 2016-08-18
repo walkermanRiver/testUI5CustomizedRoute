@@ -1,0 +1,48 @@
+[
+	{
+		"target": "targetName1",
+		"aKeyName":[
+			"k1", 
+			"k2"
+		],
+		"oKeyValue":{
+			"key1":"{value1}"
+		},
+		"parent":{
+			"aKeyName":[
+				"k1", 
+				"k2"
+			],
+			"oKeyValue":{
+				"key1":"value1"
+			},
+			"parent":{
+				"aKeyName":[
+					"k1"
+				],
+				"oKeyValue":{
+					"key1":"value1"
+				}
+			}
+		}
+	},
+	{
+		"target":"targetName2",
+		"aKeyName":[
+			"k1"
+		],
+		"oKeyValue":{
+			"key1":"{value1}"
+		},
+		"parent":{
+			"aKeyName":[
+				"k1"
+			],
+			"oKeyValue":{
+				"key1":"value1"
+			}
+		}
+	}
+]
+	
+	

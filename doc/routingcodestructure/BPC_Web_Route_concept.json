@@ -1,0 +1,288 @@
+{	
+	"routing": {
+		"config": {			
+			"viewType": "XML",
+			"viewPath": "sap.ui.demo.nav.view",
+			"controlId": "app",
+			"controlAggregation": "pages",
+			"transition": "slide",
+			"maxCacheInstanceCount": 20,
+			"bypassed": {
+				"target": "notFound"
+			}
+		},
+	"routes": [
+		//default page, cached by view name
+		{
+			"pattern": "",
+			"name": "appHome",
+			"target": "home"
+		}, 
+		//simple view, cached by view name
+		{
+			"pattern": "system-report/security/user",
+			"name": "route_system_report_security_user",
+			"target": "system_report_security_user",
+			//for standard model
+			"authorityList":[
+				{
+					"option":[
+						{
+							"task":"P0009"
+						}
+					]
+
+				},
+				{
+					"option":[
+						{
+							"task":"P0009"
+						}
+					]
+				}
+			],
+			//for embeded model
+			"authorityList":[
+				{
+					"option":[
+						{
+							"object":"RSBPC_ENVM",
+							"user": "sunwei0",
+							"id": [
+								{
+									"RSBPC_APPS": "{appset_id}"
+								},
+								{
+									"ACTVT": "dummy"
+								}
+							]							
+						}
+					]
+				}
+			]
+		}, 
+		//simple view, cached by view name, optional parameter to change UI detail
+		{
+			"pattern": "web-consolidation_monitor:?query:",
+			"name": "route_web-consolidation_monitor",
+			"target": "web-consolidation_monitor"
+		}, 
+		//simple view, cached by view name, optional parameter to change UI detail, cach for limited time
+		{
+			"pattern": "web-journals-journal_list:?query:",
+			"name": "route_web-journals-journal_list",
+			"target": "web-journals-journal_list",
+			"cacheInstance": "true",
+			"cacheTime": 100
+		}, 
+		//multiple instance view, cached by view name and additional key
+		{
+			"pattern": "process-monitor-detail/{instanceId}:?query:",
+			"name": "route_process-monitor-detail",
+			"target": "process-monitor-detail",
+			"cacheInstance": "true",
+			"cacheTime": 100,
+			"cacheKey":{
+				"selfKey":{
+					"instanceId": "{instanceId}"
+				}	
+			}
+		}, 
+		//this is example for parent/chile view, both parent and child is cached with view name, but parent need lazy loading logic, thus parent can have special logic before it initialize child view
+		//here parent/child will be cached based on view name since admin parent/child is global
+		{
+			"pattern": "admin-composite-container/admin-dimensions-list:?query:",
+			"name": "route_admin-dimensions-list",
+			"target": "admin-composite-container"
+		}, 
+		//parent view is cached by view name, child will be cached by additional name
+		//here it is just one example, we should check if dimension name has sepcial characteristic which can not be used in URL
+		{
+			"pattern": "admin-composite-container/{dimensionId}/admin-dimension-members-list:?query:",
+			"name": "route_admin-dimension-members-list",
+			"target": "admin-composite-container"
+		}, 
+		//multiple parent instance case, parent view is cached by viwe name and additional key, child view is cached by view name and optional key
+		{
+			"pattern": "admin-composite-container/admin_bpf_process_template/workspace/{workspaceId}:?query:",
+			"name": "route_admin_bpf_process_template_workspace",
+			"target": "workspace_composite_container",
+			"cacheInstance": "true",
+			"cacheTime": 100,
+			"cacheKey":{
+				"target":{
+					"key":{
+						"key1":"value1"
+					}
+				}
+			},
+			"cacheKey":{
+				"target":{
+					"key":{
+						"key1":"{value1}"
+					},
+					"parent":{
+						"key":{
+							"key1":"value1"
+						}
+					}
+				}
+			},
+			"cacheKey":{
+				"target1":{
+					"parent":{
+						"key":{
+							"key1":"value1"
+						},
+						"parent":{
+							"key":{
+
+							}
+						}
+					},
+					"key":"value1"
+				},
+				"target2":{
+					"parent":{
+						"key1":"value1"
+					},
+					"key":"value1"
+				},
+			},
+
+			"cacheKey":{				
+				"workspace_composite_container":{
+					"targetName":{
+
+					},
+					"parentTargetName":{
+
+					},
+
+					"parent": {
+
+					},
+					"parent_level0":{
+							"workspaceId": "{workspaceId}"
+						},
+					"parent_level1":{
+
+					}
+				}	
+			},
+			"cacheKey":[
+				{
+					"target": "workspace_composite_container",
+					"key":{
+						"workspaceId": "{workspaceId}"
+					},
+					"parent":{
+						"key":{
+							"workspaceId": "{workspaceId}"
+						},
+						"parent":{
+
+						}
+					}
+				}
+			]
+				
+		},
+		//for very simple case, the parent and child does not impact each other, especailly the UI granularity,then we can specify the target sub view directly 
+		{
+			"pattern": "admin-composite-container/simple_function:?query:",
+			"name": "route_simple_function",
+			"target": "simple_function_detail",
+			"cacheInstance": "true",
+			"cacheTime": 100,
+			"cacheKey":{
+				"selfKey":{
+					"workspaceId": "{workspaceId}"
+				},
+				"p1Key":{
+					"key1": "key1"
+				}
+			}
+		}
+	],
+	"targets": {
+		"home": {
+			"viewName": "Home",
+			"viewLevel" : 1
+		},
+		"notFound": {
+			"viewName": "NotFound",
+			"transition": "show"
+		},
+		"noAuthority": {
+			"viewName": "NoAuthority",
+			"transition": "show"
+		},
+		"system_report_security_user": {
+			"viewPath": "sap.epm.ui.runtime.bpc.audit.security",
+			"viewName": "users_list",
+			"viewLevel" : 2,
+			"path": 
+		},
+		"admin-composite-container": {
+			"viewPath": "sap.epm.ui.runtime.bpc.audit.security",
+			"viewName": "admin-composite-container",
+			"viewLevel" : 1
+		},
+		"admin-dimensions-list": {
+			"parent": "admin-composite-container",
+			"viewPath": "sap.epm.ui.admin.bpc.dimension",
+			"viewName": "dimensions_list",
+			"viewId": "thisIsMyViewId",
+			"controlId": "contentArea",
+			"controlAggregation": "content",
+			"viewLevel" : 1,
+			"transition": "flip",
+			"addPageContainer": "true"			
+		},
+		"admin-dimension-members-list": {
+			"parent": "admin-composite-container",
+			"viewPath": "sap.epm.ui.admin.bpc.dimension",
+			"viewName": "dimension_members",
+			"viewId": "thisIsMyViewId",
+			"controlId": "contentArea",
+			"controlAggregation": "content",
+			"viewLevel" : 2,
+			"transition": "flip",
+			"addPageContainer": "true"			
+		},
+		"workspace_composite_container": {
+			"viewPath": "sap.epm.ui.runtime.bpc.audit.security",
+			"viewName": "workspace-composite-container",
+			"viewLevel" : 1
+		},
+		"workspace_report_detail": {
+			"parent": "workspace_composite_container",
+			"viewPath": "sap.epm.ui.admin.bpc.dimension",
+			"viewName": "dimension_members",
+			"viewId": "thisIsMyViewId",
+			"controlId": "contentArea",
+			"controlAggregation": "content",
+			"viewLevel" : 2,
+			"transition": "flip",
+			"addPageContainer": "true"			
+		},
+		"simple_function_container": {
+			"viewPath": "sap.epm.ui.runtime.bpc.audit.security",
+			"viewName": "workspace-composite-container"			
+		},
+		"simple_function_detail": {
+			"parent": "simple_function_container",
+			"viewPath": "sap.epm.ui.admin.bpc.dimension",
+			"viewName": "dimension_members",
+			"viewId": "thisIsMyViewId",
+			"controlId": "contentArea",
+			"controlAggregation": "content",			
+			"transition": "flip",
+			"addPageContainer": "true"			
+		}
+	}
+}
+
+
+

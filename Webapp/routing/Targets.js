@@ -19,12 +19,24 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/EventProvider', './Target'],
 						this._createTarget(sTargetOptions, oOptions.targets[sTargetOptions]);
 					}
 				}
+				
+				for (sTargetName in this._mTargets) {
+					if (this._mTargets.hasOwnProperty(sTargetName)) {
+						this._addParentTo(this._mTargets[sTargetName]);
+					}
+				}
 
 			},
 			
 			destroy : function () {
 				var sTargetName;
 				EventProvider.prototype.destroy.apply(this);
+				
+				for (sTargetName in this._mTargets) {
+					if (this._mTargets.hasOwnProperty(sTargetName)) {
+						this._mTargets[sTargetName].destroy();
+					}
+				}
 				
 				this._oViews = null;
 				this._oConfig = null;
@@ -50,6 +62,40 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/EventProvider', './Target'],
 
 				return this;
 			},
+			
+			display: function(vTargets, vData, sRouteName, vRouteInstancePara) {
+				this._display(vTargets, vData, sRouteName, vRouteInstancePara);
+			},
+
+	
+			//vRouteInstancePara/unit: {targetName1:{aKeyName,oKeyValue,parent}}
+			_display: function(vTargets, vData, sRouteName, vRouteInstancePara) {
+				var that = this;
+
+				if (jQuery.isArray(vTargets)) {
+					jQuery.each(vTargets, function(i, sTarget) {
+						that._displaySingleTarget(sTarget, vData, sRouteName, vRouteInstancePara);
+					});
+				} else {
+					this._displaySingleTarget(vTargets, vData, sRouteName, vRouteInstancePara);
+				}
+
+				return this;
+			},
+
+			//{aKeyName,oKeyValue,parent}
+			_displaySingleTarget: function(sName, vData, sRouteName, vRouteInstancePara) {
+				var oTarget = this.getTarget(sName);
+				var oRouteInstancePara = vRouteInstancePara[sName];
+				
+
+				if (oTarget !== undefined) {
+					oTarget.display(vData, sRouteName, oRouteInstancePara);
+				} else {
+					jQuery.sap.log.error("The target with the name \"" + sName + "\" does not exist!", this);
+				}
+			},
+			
 			
 			_createTarget : function (sName, oTargetOptions) {
 				var oTarget,

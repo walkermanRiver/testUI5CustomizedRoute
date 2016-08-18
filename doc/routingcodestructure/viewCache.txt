@@ -1,0 +1,61 @@
+"pattern": "employees/{employeeId}/resume:?tab=Hobbies",
+"name": "employeeResume",
+"target": "employeeResume",
+"employeeResume": {
+	"viewName": "employee.Resume",
+	"viewLevel" : 4,
+	"transition": "flip"
+},
+key: {employeeId}
+
+"resumeTabHobbies": {
+	"parent": "employeeResume",
+	"viewPath": "sap.ui.demo.nav.view.employee",
+	"viewName": "ResumeHobbies",
+	"viewId": "thisIsMyCustomIdToBeUsedForResumeHobbies",
+	"controlId": "hobbiesTab",
+	"controlAggregation": "content",
+	"viewLevel" : 2，
+	"transition": "flip"，
+	"addPageContainer": "true",
+	"cacheInstance": "true",
+	"cacheTime": 100
+},
+key: employeeId tab
+employeeId = {employeeId}
+tab ="Hobbies"
+
+
+"resumeTabNotes": {
+	"parent": "employeeResume",
+	"viewPath": "sap.ui.demo.nav.view.employee",
+	"viewName": "ResumeNotes",
+	"controlId": "notesTab",
+	"controlAggregation": "content"
+},
+key: employeeId tab
+employeeId = {employeeId}
+tab ="Notes"
+
+routeName: "employeeResume",
+"viewName": "employee.Resume",
+key: employeeId
+value: {employeeId}
+
+
+routeName: "employeeResume",
+"viewName": "ResumeHobbies",
+parentView: "employee.Resume",
+parentKey: [employeeId]
+parentValue: {employeeId}
+key: tab
+value: Hobbies
+
+
+routeName: "employeeResume",
+"viewName": "ResumeNotes",
+parentView: "employee.Resume",
+parentKey: employeeId
+parentValue: {employeeId}
+key: tab
+value: Notes

@@ -1,0 +1,90 @@
+[
+	//simple case, 
+	{
+		"routeName": "routeNameValue",
+		"viewName": "viewNameValue",
+		"cacheInstance": true,
+		"AdditionalKey":[],
+		"view":{				
+			"viewRuntime": "viewRuntimeObject"
+		}
+	},
+	{
+		"routeName": "routeNameValue",
+		"viewName": "viewNameValue",
+		"cacheInstance": true,
+		"AdditionalKey":[],
+		"view":{				
+			"viewRuntime": "viewRuntimeObject"
+		},
+		"childView":[
+			{
+				"viewName": "viewNameValue",
+				"cacheInstance": true,
+				"AdditionalKey":[],
+				"view":{				
+					"viewRuntime": "viewRuntimeObject"
+				},
+			}			
+
+		]
+	},
+	{
+		"routeName": "routeNameValue",
+		"viewName": "viewNameValue",
+		"cacheInstance": true,
+		"AdditionalKey":[
+			"instanceId"
+		],
+		"view":[
+			{
+				"instanceId": "instanceIdValue1",
+				"viewRuntime": "viewRuntimeObject"
+			},
+			{
+				"instanceId": "instanceIdValue2",
+				"viewRuntime": "viewRuntimeObject"
+			}
+		]
+	},
+	{
+		"routeName": "routeNameValue",
+		"viewName": "viewNameValue",
+		"cacheInstance": true,
+		"AdditionalKey":[
+			"instanceId"
+		],
+		"view":[
+			{
+				"instanceId": "instanceIdValue1",
+				"viewRuntime": "viewRuntimeObject",
+				"childView":[
+					{
+						"viewName": "viewNameValue",
+						"cacheInstance": true,
+						"AdditionalKey":[],
+						"view":{				
+							"viewRuntime": "viewRuntimeObject"
+						},
+					}			
+
+				]
+			},
+			{
+				"instanceId": "instanceIdValue2",
+				"viewRuntime": "viewRuntimeObject",
+				"childView":[
+					{
+						"viewName": "viewNameValue",
+						"cacheInstance": true,
+						"AdditionalKey":[],
+						"view":{				
+							"viewRuntime": "viewRuntimeObject"
+						},
+					}			
+
+				]
+			}
+		]
+	}
+]

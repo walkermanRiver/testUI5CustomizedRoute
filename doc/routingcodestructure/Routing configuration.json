@@ -1,0 +1,227 @@
+{	
+	"routing": {
+		"config": {
+			"routerClass": "sap.m.routing.Router",
+			"viewType": "XML",
+			"viewPath": "sap.ui.demo.nav.view",
+			"controlId": "app",
+			"controlAggregation": "pages",
+			"transition": "slide",
+			"maxCacheInstanceCount": 20,
+			"bypassed": {
+				"target": "notFound"
+			}
+		},
+		"routes": [{
+			"pattern": "",
+			"name": "appHome",
+			"target": "home"
+		}, {
+			"pattern": "employees",
+			"name": "employeeList",
+			"target": "employees"
+		}, {
+			"pattern": "employee/overview:?query:",
+			"name": "employeeOverview",
+			"target": ["EmployeeOverviewTop", "EmployeeOverviewContent"]
+		}, 
+		//this route is cached with specified key
+		{
+			"pattern": "employees/{employeeId}",
+			"name": "employee",
+			"target": "employee",
+			"cacheInstance": "true",
+			"cacheTime": 100,
+			"cacheKey":{
+				"employeeId": "{employeeId}"
+			}	
+		},
+		//this route does not need cache, for example dimension member maintain, each time we need contruct new instance, since different dimension can have different count of attribute
+		{
+			"pattern": "employees/{employeeId}",
+			"name": "employee",
+			"target": "employee",
+			"cacheInstance": "false"			
+		},
+		//this route is only cached with view name, so that means only one instance is kept, this is the same as UI5 route
+		{
+			"pattern": "employees/{employeeId}",
+			"name": "employee",
+			"target": "employee",
+			"cacheInstance": "true"			
+		},{
+			"pattern": "employees/{employeeId}/check",
+			"name": "check",
+			"target": "resumeTabHobbies"
+		}, {
+			"pattern": "employees/{employeeId}/resume:?tab=Hobbies",
+			"name": "employeeResume",
+			"target": "employeeResume",
+			"cacheKey":{
+				[{employeeId}]
+			},
+			"subTarget":[
+				
+			]
+		},
+		//this is example for parent/chile view, both parent and child is cached with specified key, but parent does not need have special logic to handle subview, such as admin
+		//maybe admin can not use this example either, because parent need special logic to handle authority, parent will only show first view which user has authority
+		{
+			"pattern": "employees/{employeeId}/resume?tab=Hobbies",
+			"name": "employeeResume",
+			"target": "employeeResume",
+			"cacheInstance": "true",
+			"cacheTime": 100,
+			"cacheKey":{
+				"p1Key": {
+					"employeeId": "{employeeId}"
+				},
+				"selfKey":{
+					"tab": "{tab}"
+				}				
+			}
+		},
+		//this is example for parent/chile view, both parent and child is cached with specified key, but parent need lazy loading logic, thus parent can have special logic before it initialize child view
+		{
+			"pattern": "employees/{employeeId}/resume:?query:",
+			"name": "employeeResume",
+			"target": "employeeResume",
+			"cacheInstance": "true",
+			"cacheTime": 100,
+			"cacheKey":{
+				"employeeId": "{employeeId}"
+			}
+		},
+		//this is example for parent/chile view, both parent and child is cached with specified key, and using lazy loading
+		{
+			"pattern": "employees/{employeeId}/resume:?query:",
+			"name": "employeeResume",
+			"target": "employeeResume",
+			"cacheInstance": "true",
+			"cacheTime": 100,
+			"cacheKey":{
+				"employeeId": "{employeeId}"
+			}				
+			"subTarget":[
+				{				
+					"target": resumeTabHobbies,
+					"cacheKey":{tab: Hobbies}
+				},
+				{				
+					"target": ResumeNotes,
+					"cacheKey":{tab: Hobbies}
+				}
+			]
+		},
+		//this is example for parent/chile view, both parent and child is cached with specified key, and does not using lazy loading
+		{
+			"pattern": "employees/{employeeId}/resume?tab=Hobbies",
+			"name": "employeeResume",
+			"target": "employeeResume",
+			"cacheInstance": "true",
+			"cacheTime": 100,
+			"cacheKey":{
+				"p1Key": {
+					"employeeId": "{employeeId}"
+				},
+				"selfKey":{
+					"tab": "{tab}"
+				}				
+			}				
+			"subTarget":[
+				{				
+					"target": resumeTabHobbies,
+					"cacheKey":{tab: Hobbies}
+				},
+				{				
+					"target": ResumeNotes,
+					"cacheKey":{tab: Hobbies}
+				}
+			]
+		}],
+		"targets": {
+			"home": {
+				"viewName": "Home",
+				"viewLevel" : 1
+			},
+			"notFound": {
+				"viewName": "NotFound",
+				"transition": "show"
+			},
+			"employees": {
+				"viewPath": "sap.ui.demo.nav.view.employee",
+				"viewName": "EmployeeList",
+				"viewLevel" : 2
+			},
+			"employee": {
+				"viewName": "employee.Employee",
+				"viewLevel" : 3
+			},
+			"employeeResume": {
+				"viewName": "employee.Resume",
+				"viewLevel" : 4,
+				"transition": "flip"
+			},
+			"resumeTabHobbies": {
+				"parent": "employeeResume",
+				"viewPath": "sap.ui.demo.nav.view.employee",
+				"viewName": "ResumeHobbies",
+				"viewId": "thisIsMyCustomIdToBeUsedForResumeHobbies",
+				"controlId": "hobbiesTab",
+				"controlAggregation": "content",
+				"viewLevel" : 2，
+				"transition": "flip"，
+				"addPageContainer": "true",
+				"cacheInstance": "true",
+				"cacheTime": 100
+			},
+			"resumeTabNotes": {
+				"parent": "employeeResume",
+				"viewPath": "sap.ui.demo.nav.view.employee",
+				"viewName": "ResumeNotes",
+				"controlId": "notesTab",
+				"controlAggregation": "content"
+			},
+			"EmployeeOverview": {
+				"viewPath": "sap.ui.demo.nav.view.employee.overview",
+				"viewName": "EmployeeOverview",
+				"viewLevel" : 2
+			},
+			"EmployeeOverviewTop": {
+				"parent": "EmployeeOverview",
+				"viewPath": "sap.ui.demo.nav.view.employee.overview",
+				"viewName": "EmployeeOverviewTop",
+				"controlId": "EmployeeOverviewParent",
+				"controlAggregation": "content"
+			},
+			"EmployeeOverviewContent": {
+				"parent": "EmployeeOverview",
+				"viewPath": "sap.ui.demo.nav.view.employee.overview",
+				"viewName": "EmployeeOverviewContent",
+				"controlId": "EmployeeOverviewParent",
+				"controlAggregation": "content"
+			}
+		}
+	}
+}
+
+
+
+
+
+
+[
+	"home": {
+				"parent": "employeeResume",
+				"viewPath": "sap.ui.demo.nav.view.employee",
+				"viewName": "Home",
+				"viewId": "thisIsMyCustomIdToBeUsedForResumeHobbies",
+				"controlId": "hobbiesTab",
+				"controlAggregation": "content"
+				"viewLevel" : 1，
+				"transition": "flip"，
+				"addPageContainer": "true",
+				"cacheInstance": "true",
+				"cacheTime": 100
+            }
+]

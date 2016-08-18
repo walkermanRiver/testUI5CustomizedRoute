@@ -22,7 +22,7 @@ sap.ui.define([
 			this.customizedRouter.initialize();
 			
 			// create the views based on the url/hash
-			this.getRouter().initialize();
+//			this.getRouter().initialize();
 		}
 
 	});

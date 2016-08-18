@@ -1,0 +1,82 @@
+{
+	"routeName1": {
+		"viewName1":{
+			"type": "XML",
+			"cacheInstance": true,
+			"AdditionalKey":["instanceId"],
+			"view":[
+				{
+					"instanceId": "instanceIdValue1",
+					"viewRuntime": "viewRuntimeObject",
+					"childView":[
+						{
+							"childViewName1":{
+								"type": "XML",
+								"cacheInstance": true,
+								"AdditionalKey":["dimensionId"],
+								"view": [
+									{
+										"dimensionId": "dimensionIdValue1",
+										"viewRuntime": "viewRuntimeObject",
+									},
+									{
+										"dimensionId": "dimensionIdValue2",
+										"viewRuntime": "viewRuntimeObject",
+									}
+								]
+							}
+						},		
+						{
+							"childViewName1":{
+								"cacheInstance": true,
+								"AdditionalKey":["dimensionId"],
+								"view": [
+									{
+										"dimensionId": "dimensionIdValue",
+										"viewRuntime": "viewRuntimeObject",
+									}
+								]
+							}
+						}
+
+					]
+				},
+				{
+					"instanceId": "instanceIdValue2",
+					"viewRuntime": "viewRuntimeObject",
+					"childView":[
+						{
+							"childViewName1":{
+								"cacheInstance": true,
+								"AdditionalKey":["dimensionId"],
+								"view": [
+									{
+										"dimensionId": "dimensionIdValue1",
+										"viewRuntime": "viewRuntimeObject",
+									},
+									{
+										"dimensionId": "dimensionIdValue2",
+										"viewRuntime": "viewRuntimeObject",
+									}
+								]
+							}
+						},		
+						{
+							"childViewName1":{
+								"cacheInstance": true,
+								"AdditionalKey":["dimensionId"],
+								"view": [
+									{
+										"dimensionId": "dimensionIdValue",
+										"viewRuntime": "viewRuntimeObject",
+									}
+								]
+							}
+						}
+
+					]
+				}
+			]
+		}
+	}
+}

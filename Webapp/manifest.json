@@ -53,8 +53,7 @@
 			}
 		},
 		"routing": {
-			"config": {
-				"routerClass": "sap.m.routing.Router",
+			"config": {				
 				"viewType": "XML",
 				"viewPath": "sap.ui.demo.nav.view",
 				"controlId": "app",
@@ -79,7 +78,7 @@
 			}, {
 				"pattern": "employees/{employeeId}",
 				"name": "employee",
-				"target": "employee",
+				"target": "employee",				
 				"cacheKey":{
 					"currentKey":{
 						"employeeId": "{employeeId}"
@@ -88,7 +87,7 @@
 			}, {
 				"pattern": "employees/{employeeId}/resume:?query:",
 				"name": "employeeResume",
-				"target": "employeeResume",
+				"target": "employeeResume",				
 				"cacheKey":{
 					"currentKey":{
 						"employeeId": "{employeeId}"
@@ -111,12 +110,14 @@
 				},
 				"employee": {
 					"viewName": "employee.Employee",
-					"viewLevel" : 3
+					"viewLevel" : 3,
+					"cacheTime": 100
 				},
 				"employeeResume": {
 					"viewName": "employee.Resume",
 					"viewLevel" : 4,
-					"transition": "flip"
+					"transition": "flip",
+					"cacheTime": 100
 				},
 				"resumeTabHobbies": {
 					"parent": "employeeResume",
