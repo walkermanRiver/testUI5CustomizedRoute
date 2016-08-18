@@ -32,13 +32,14 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/EventProvider', 'sap/ui/core/ro
 			}
 			
 			//add code here
+			var oNewRoutes = this._arrangeRoute(oRoutes, oTargetsConfig);
 			//end arrange code
 			this._oRouteViews = new RouteViews({component : oOwner});
 			if (oTargetsConfig) {
 				this._oTargets = this._createTargets(this._oConfig, oTargetsConfig);
 			}
 			
-			jQuery.each(oRoutes, function(sRouteName, oRouteConfig) {
+			jQuery.each(oNewRoutes, function(sRouteName, oRouteConfig) {
 				if (oRouteConfig.name === undefined) {
 					oRouteConfig.name = sRouteName;
 				}
@@ -49,8 +50,72 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/EventProvider', 'sap/ui/core/ro
 		},
 		
 		_arrangeRoute: function(oRoutes, oTargetsConfig){
+			var oNewRoutes = {};
 			
-			
+			for (sRouteName in oRoutes) {
+				if (oRoutes.hasOwnProperty(sRouteName) && oRoutes[sRouteName]) {
+					oNewRoutes[sRouteName] = {};
+					oNewRoutes[sRouteName].pattern = oRoutes[sRouteName].pattern;
+					oNewRoutes[sRouteName].name = oRoutes[sRouteName].name;					
+
+					oNewRoutes[sRouteName].target = oRoutes[sRouteName].target;
+					if(oRoutes[sRouteName].cacheKey){
+						oNewRoutes[sRouteName].oCacheKey = {};
+						for (sTargetName in oRoutes[sRouteName].cacheKey) {
+							if(oRoutes[sRouteName].cacheKey.hasOwnProperty(sTargetName) && oRoutes[sRouteName].cacheKey[sTargetName]){
+								
+								//begin check if target exist
+								var bTargetExist = false;
+								if (jQuery.isArray(oRoutes[sRouteName].target)) {
+									jQuery.each(oRoutes[sRouteName].target, function(i, sTarget) {
+										if(sTarget == sTargetName){
+											bTargetExist = true;
+											break;
+										}
+									});
+								}else{
+									bTargetExist = (oRoutes[sRouteName].target == sTargetName) ? true : false;
+								}
+								
+								if(!oTargetsConfig[sTargetName]){
+									bTargetExist = false;
+								}
+								
+								if(bTargetExist == false){
+									$.sap.log.error("The target " + sTargetName + " of the route " + sRouteName + "does not exist", this);
+									continue;
+								}
+								//end check if target exist								
+								
+								oNewRoutes[sRouteName].oCacheKey[sTargetName] = {};								
+								var oConfigRoute = oRoutes[sRouteName].cacheKey[sTargetName];
+								var oNewRoutePart = oNewRoutes[sRouteName].oCacheKey[sTargetName];
+								var oTarget = oTargetsConfig[sTargetName];
+								while(oConfigRoute){									
+									if(!oTarget){
+										$.sap.log.error("The target " + sTargetName + " of the route " + sRouteName + "does not exist", this);
+									}									
+									oNewRoutePart = {};
+									oNewRoutePart["aKeyName"] = [];
+									for(sKeyName in oConfigRoute["key"]){
+										oNewRoutePart[aKeyName].push(sKeyName);
+									}
+									oNewRoutePart["oKeyValue"] = oConfigRoute["key"];
+									oNewRoutePart["parent"] = null;
+									
+									oConfigRoute = oConfigRoute["parent"];
+									oNewRoutePart = oNewRoutePart["parent"];
+									
+									sTargetName = oTarget.parent;
+									oTarget = oTargetsConfig[sTargetName];
+								}
+							}
+						}
+					}
+				}
+			}
+				
+			return oNewRoutes;
 			
 		},
 		

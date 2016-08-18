@@ -103,62 +103,33 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/EventProvider', 'sap/ui/core/ro
 		},
 		
 		//oRouteInstancePara = {self:{aKeyName: [k1, k2],oKeyValue:{k1:value1, k2: value2}},p1:{aKeyName: [k1, k2],oKeyValue:{k1:value1, k2: value2}}}
-		_convertInstanceCachePara: function(oParameter){
-			var oRouteInstancePara = {};
-			var oCacheKey = this._oRouteConfig.cacheKey;
+		_convertInstanceCachePara: function(oParameter){			
+			var oCacheKey = $.extend({},this._oRouteConfig.oCacheKey);				
 			if(!oCacheKey){
-				return oRouteInstancePara;
+				return oCacheKey;
 			}
 			
 			for (sTarget in oCacheKey) {
 				if (oCacheKey.hasOwnProperty(sTarget)) {
-					oRouteInstancePara[sTarget] = {aKeyName:[],oKeyValue:{}, parent: null};
-					for(sKey in oCacheKey[sTarget]["key"]){
-						if (oCacheKey[sTarget]["key"].hasOwnProperty(sKey)) {
-							oRouteInstancePara[sTarget]["aKeyName"].push(sKey);
-							var sKeyValue = oCacheKey[sTarget]["key"][sKey];
+					
+					var oConfigRoutePart = oCacheKey[sTarget];
+					
+					while(oConfigRoutePart){
+						for(sKeyField in oConfigRoutePart["oKeyValue"]){
+							var sKeyValue = oConfigRoutePart[sKeyField];
 							if(sKeyValue.substr(0,1) == '{'){
-								nLength = sKeyValue.length - 2;
+								var nLength = sKeyValue.length - 2;
 								sKeyValue = sKeyValue.substr(1,nLength);
 								sKeyValue = oParameter[sKeyValue];
 							}							
-							oRouteInstancePara[sTarget]["oKeyValue"][sKey] = sKeyValue;
-							
-							
-							
-							
-						}						
-					}
-					
-					var oConfigParent = oCacheKey[sTarget].parent;
-					var sCurTargetName = this._oRouteConfig.name;
-					var oIndexInstancePara = oRouteInstancePara[sTarget];
-					
-					for(;oConfigParent;){
-						var oCurTarget = this._oRouter._oTargets.getTarget(sCurTargetName);
-						var sParentTargetName = oCurTarget._oParent._oOptions.name;
-						oIndexInstancePara["parent"] = {aKeyName:[],oKeyValue:{}, parent: null};
-						oIndexInstancePara["parent"]["aKeyName"] = oConfigParent.key;
-						
-						for(sKey in oConfigParent["key"]){
-							if (oConfigParent["key"].hasOwnProperty(sKey)) {
-								oIndexInstancePara["parent"]
-							}
 						}
-						
-						oIndexInstancePara["parent"]["oKeyValue"] = 
-						
-						
-						
+						oConfigRoutePart = oConfigRoutePart.parent;
 					}
 				}
 			}	
 			
-			return oRouteInstancePara;
-			
+			return oCacheKey;			
 		},
-		
-		
 		
 		_routeMatched: function(oArguments, bInital, oNestingChild) {
 			var oRouter = this._oRouter,

@@ -86,8 +86,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/EventProvider', './Target'],
 			//{aKeyName,oKeyValue,parent}
 			_displaySingleTarget: function(sName, vData, sRouteName, vRouteInstancePara) {
 				var oTarget = this.getTarget(sName);
-				var oRouteInstancePara = vRouteInstancePara[sName];
-				
+				var oRouteInstancePara = vRouteInstancePara[sName];				
 
 				if (oTarget !== undefined) {
 					oTarget.display(vData, sRouteName, oRouteInstancePara);
