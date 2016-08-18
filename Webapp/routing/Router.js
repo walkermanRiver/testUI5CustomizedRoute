@@ -52,7 +52,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/EventProvider', 'sap/ui/core/ro
 		_arrangeRoute: function(oRoutes, oTargetsConfig){
 			var oNewRoutes = {};
 			
-			for (sRouteName in oRoutes) {
+			for (var sRouteName in oRoutes) {
 				if (oRoutes.hasOwnProperty(sRouteName) && oRoutes[sRouteName]) {
 					oNewRoutes[sRouteName] = {};
 					oNewRoutes[sRouteName].pattern = oRoutes[sRouteName].pattern;
@@ -61,7 +61,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/EventProvider', 'sap/ui/core/ro
 					oNewRoutes[sRouteName].target = oRoutes[sRouteName].target;
 					if(oRoutes[sRouteName].cacheKey){
 						oNewRoutes[sRouteName].oCacheKey = {};
-						for (sTargetName in oRoutes[sRouteName].cacheKey) {
+						for (var sTargetName in oRoutes[sRouteName].cacheKey) {
 							if(oRoutes[sRouteName].cacheKey.hasOwnProperty(sTargetName) && oRoutes[sRouteName].cacheKey[sTargetName]){
 								
 								//begin check if target exist
@@ -70,7 +70,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/EventProvider', 'sap/ui/core/ro
 									jQuery.each(oRoutes[sRouteName].target, function(i, sTarget) {
 										if(sTarget == sTargetName){
 											bTargetExist = true;
-											break;
+											return false;
 										}
 									});
 								}else{
@@ -95,10 +95,13 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/EventProvider', 'sap/ui/core/ro
 									if(!oTarget){
 										$.sap.log.error("The target " + sTargetName + " of the route " + sRouteName + "does not exist", this);
 									}									
-									oNewRoutePart = {};
+									if(!oNewRoutePart){
+										oNewRoutePart = {};
+									}
+											
 									oNewRoutePart["aKeyName"] = [];
-									for(sKeyName in oConfigRoute["key"]){
-										oNewRoutePart[aKeyName].push(sKeyName);
+									for(var sKeyName in oConfigRoute["key"]){
+										oNewRoutePart["aKeyName"].push(sKeyName);
 									}
 									oNewRoutePart["oKeyValue"] = oConfigRoute["key"];
 									oNewRoutePart["parent"] = null;
@@ -115,8 +118,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/EventProvider', 'sap/ui/core/ro
 				}
 			}
 				
-			return oNewRoutes;
-			
+			return oNewRoutes;			
 		},
 		
 		addRoute : function (oConfig, oParent) {
@@ -301,7 +303,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/EventProvider', 'sap/ui/core/ro
 			}
 
 			fnFireEvent();
-		},
+		}
 	});
 	
 	Router.M_EVENTS = {

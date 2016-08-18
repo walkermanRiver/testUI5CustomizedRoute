@@ -80,17 +80,21 @@
 				"name": "employee",
 				"target": "employee",				
 				"cacheKey":{
-					"currentKey":{
-						"employeeId": "{employeeId}"
+					"employee":{
+						"key":{						
+							"employeeId": "{employeeId}"
+						}
 					}	
 				}
 			}, {
 				"pattern": "employees/{employeeId}/resume:?query:",
 				"name": "employeeResume",
 				"target": "employeeResume",				
-				"cacheKey":{
-					"currentKey":{
-						"employeeId": "{employeeId}"
+				"cacheKey":{					
+					"employeeResume":{
+						"key":{						
+							"employeeId": "{employeeId}"
+						}
 					}	
 				}
 			}],

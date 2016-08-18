@@ -140,7 +140,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/EventProvider', 'sap/ui/core/ro
 			oEventData,
 			oView = null,
 			oTargetControl = null;
-			oNewArguments = this._convertArgumentsPara(oArguments);
+			var oNewArguments = this._convertArgumentsPara(oArguments);
 
 			// Recursively fire matched event and display views of this routes parents
 			if (this._oParent) {
@@ -150,7 +150,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/EventProvider', 'sap/ui/core/ro
 				this._oNestingParent._routeMatched(oArguments, false, this);
 			}
 	
-			oConfig =  jQuery.extend({}, oRouter._oConfig, this._oConfig);
+			oConfig =  jQuery.extend({}, oRouter._oConfig, this._oRouteConfig);
 	
 			oEventData = {
 				name: oConfig.name,
@@ -187,7 +187,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/EventProvider', 'sap/ui/core/ro
 				oEventData.targetControl = oTargetControl;
 			} else {
 				// let targets do the placement + the events
-				oRouter._oTargets._display(this._oConfig.target, oArguments, this._oRouteConfig.name, oRouteInstancePara);
+				oRouter._oTargets._display(this._oRouteConfig.target, oArguments, this._oRouteConfig.name, oRouteInstancePara);
 			}
 	
 			if (oConfig.callback) {
@@ -202,7 +202,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/EventProvider', 'sap/ui/core/ro
 			if (bInital) {
 				jQuery.sap.log.info("The route named '" + oConfig.name + "' did match with its pattern", this);
 				this.fireEvent("patternMatched", oEventData);
-				oRouter.fireRoutePatternMatched(oEventData);
+//				oRouter.fireRoutePatternMatched(oEventData);
 			}
 	
 			return oPlaceInfo;
