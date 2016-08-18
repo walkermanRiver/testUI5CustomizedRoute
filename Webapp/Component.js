@@ -21,6 +21,8 @@ sap.ui.define([
 			this.customizedRouter = new Router(aRoutes, oRouteConfig, this, oRoutingManifestEntry.targets);
 			this.customizedRouter.initialize();
 			
+			sap.ui.demo.nav.customizedRouter = this.customizedRouter;
+			
 			// create the views based on the url/hash
 //			this.getRouter().initialize();
 		}

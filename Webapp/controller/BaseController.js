@@ -7,7 +7,9 @@ sap.ui.define([
 	return Controller.extend("sap.ui.demo.nav.controller.BaseController", {
 
 		getRouter : function () {
-			return sap.ui.core.UIComponent.getRouterFor(this);
+//			return sap.ui.core.UIComponent.getRouterFor(this);
+//			return this.getOwnerComponent().customizedRouter;
+			return sap.ui.demo.nav.customizedRouter;
 		},
 
 		onNavBack: function (oEvent) {

@@ -79,12 +79,12 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/EventProvider', 'sap/ui/core/ro
 			
 			var oNewArguments = {};
 			
-			for(sArgument in oArguments){
+			for(var sArgument in oArguments){
 				if (oArguments.hasOwnProperty(sArgument)) {
 					var sType = typeof(oArguments[sArgument]);
 					switch(sType){
 					case "object":
-						for(sQueryArgument in oArguments[sArgument]){
+						for(var sQueryArgument in oArguments[sArgument]){
 							if(oArguments[sArgument].hasOwnProperty(sQueryArgument)){
 								oNewArguments[sQueryArgument] = oArguments[sArgument][sQueryArgument];
 							}

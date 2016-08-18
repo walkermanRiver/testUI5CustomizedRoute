@@ -228,6 +228,10 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/EventProvider', 'sap/ui/core/ro
 			return oRoute.getURL(oParameters);
 		},
 		
+		getRoute : function (sName){
+			return this._oRoutes[sName];
+		},
+		
 		_createTargets : function (oConfig, oTargetsConfig) {
 			return new Targets({
 				routeViews: this._oRouteViews,

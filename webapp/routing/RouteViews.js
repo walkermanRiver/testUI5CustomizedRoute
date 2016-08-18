@@ -140,7 +140,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/EventProvider', './RouteView','
 				var nRouteViewCount = aRouteView.length;				
 				for(var i=0; i<nRouteViewCount; i++){
 					var oIndexRouteView = aRouteView[i];
-					if(_compareRouteViewKey(oOptions,oIndexRouteView) && _compareRouteViewKey(oParentRouteView,oIndexRouteView.oParentRouteView )){
+					if(this._compareRouteViewKey(oOptions,oIndexRouteView) && this._compareRouteViewKey(oParentRouteView,oIndexRouteView.oParentRouteView )){
 						return oIndexRouteView;
 					}
 				}				
