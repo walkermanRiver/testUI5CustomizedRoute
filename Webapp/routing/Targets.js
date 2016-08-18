@@ -12,7 +12,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/EventProvider', './Target'],
 
 				this._mTargets = {};
 				this._oConfig = oOptions.config;
-				this._oViews = oOptions.views;	
+				this._oRouteViews = oOptions.routeViews;	
 
 				for (sTargetOptions in oOptions.targets) {
 					if (oOptions.targets.hasOwnProperty(sTargetOptions)) {
@@ -38,7 +38,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/EventProvider', './Target'],
 					}
 				}
 				
-				this._oViews = null;
+				this._oRouteViews = null;
 				this._oConfig = null;
 				this.bIsDestroyed = true;
 
@@ -125,8 +125,22 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/EventProvider', './Target'],
 			},
 			
 			_constructTarget : function (oOptions, oParent) {
-				return new Target(oOptions, this._oViews, oParent);
+				return new Target(oOptions, this._oRouteViews, oParent);
 			},
+			
+			_setRootViewId: function (sId) {
+				var sTargetName,
+					oTargetOptions;
+
+				for (sTargetName in this._mTargets) {
+					if (this._mTargets.hasOwnProperty(sTargetName)) {
+						oTargetOptions = this._mTargets[sTargetName]._oOptions;
+						if (oTargetOptions.rootView === undefined) {
+							oTargetOptions.rootView = sId;
+						}
+					}
+				}
+			}
 			
 		});
 

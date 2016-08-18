@@ -92,11 +92,12 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/EventProvider'],
 				var sViewName = this._getEffectiveViewName(oOptions.viewName);
 
 				var oViewOptions = {
-					viewName : sViewName,
+					sRouteName: sRouteName, //TBD
+					sViewName : sViewName,
 					type : oOptions.viewType,
 					id : oOptions.viewId,
 					bCacheInstance: oOptions.cacheInstance,
-					aAdditionalKey: vRouteInstancePara.aKeyName,
+					aAdditionalKey: vRouteInstancePara ? vRouteInstancePara.aKeyName : null,
 					bAddPageContainer:oOptions.addPageContainer,
 					nCacheTime: oOptions.cacheTime
 				};

@@ -1,5 +1,5 @@
-sap.ui.define(['jquery.sap.global', 'sap/ui/base/EventProvider', 'sap/ui/core/routing/HashChanger','./Route', './RouteViews', './Targets', 'sap/ui/thirdparty/crossroads'],
-	function(jQuery, EventProvider, HashChanger,Route, RouteViews, Targets, crossroads) {
+sap.ui.define(['jquery.sap.global', 'sap/ui/base/EventProvider', 'sap/ui/core/routing/HashChanger','./Route', './RouteViews', './Targets', 'sap/ui/thirdparty/crossroads','sap/ui/core/mvc/View'],
+	function(jQuery, EventProvider, HashChanger,Route, RouteViews, Targets, crossroads, View) {
 	"use strict";
 	
 	var Router = EventProvider.extend("sap.ui.demo.nav.routing.Router",{
@@ -36,7 +36,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/EventProvider', 'sap/ui/core/ro
 			//end arrange code
 			this._oRouteViews = new RouteViews({component : oOwner});
 			if (oTargetsConfig) {
-				this._oTargets = this._createTargets(this._oConfig, oTargetsConfig);
+				this._oTargets = this._createTargets(this._oRouteConfig, oTargetsConfig);
 			}
 			
 			jQuery.each(oNewRoutes, function(sRouteName, oRouteConfig) {
@@ -143,8 +143,20 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/EventProvider', 'sap/ui/core/ro
 		},
 		
 		initialize : function () {
-			var that = this,
-			oHashChanger = this.oHashChanger = HashChanger.getInstance();
+			var that = this;
+			
+			var oRootControl = this._oOwner.getAggregation("rootControl");
+			if (oRootControl instanceof View) {
+				if (this._oRouteConfig.targetParent === undefined) {
+					this._oRouteConfig.targetParent = oRootControl.getId();
+				}
+				if (this._oTargets) {
+					this._oTargets._setRootViewId(oRootControl.getId());
+				}
+			}
+			
+			
+			var oHashChanger = this.oHashChanger = HashChanger.getInstance();
 
 			if (this._bIsInitialized) {
 				jQuery.sap.log.warning("Router is already initialized.", this);
@@ -190,7 +202,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/EventProvider', 'sap/ui/core/ro
 				oRoute.destroy();
 			});
 			this._oRoutes = null;
-			this._oConfig = null;
+			this._oRouteConfig = null;
 
 			if (this._oTargets) {
 				this._oTargets.destroy();
@@ -290,10 +302,10 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/EventProvider', 'sap/ui/core/ro
 				});
 			}.bind(this);
 
-			if (this._oConfig.bypassed) {
+			if (this._oRouteConfig.bypassed) {
 				// In sync case, oReturn is a Targets reference
 				// In async case, it's a Promise instance
-				var oReturn = this._oTargets.display(this._oConfig.bypassed.target, { hash : sHash});
+				var oReturn = this._oTargets.display(this._oRouteConfig.bypassed.target, { hash : sHash});
 
 				if (oReturn instanceof Promise) {
 					// When Promise is returned, make sure the bypassed event is fired after the target view is loaded

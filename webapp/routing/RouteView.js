@@ -42,7 +42,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/EventProvider'],
 			},	
 			
 			//option = {viewName: "sap.ui.demo.nav.view.employee.overview.EmployeeOverview", type: "XML", id: undefined}
-			_createView: function(oOption){				
+			_createView: function(oOptions){				
 				var oContentView;				
 				if(this._bAddPageContainer){
 					oContentView =  new sap.m.Page({
